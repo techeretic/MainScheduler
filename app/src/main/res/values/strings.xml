@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SeqSched</string>
+    <string name="title_activity_main_scheduler">MainScheduler</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="runnable_name">Runnable Name</string>
+    <string name="add_runnable_name">Add Runnable Name</string>
+    <string name="schedule">Schedule It</string>
+</resources>
