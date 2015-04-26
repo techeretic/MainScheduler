@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class RecViewAdapter extends
     List<ProgressTask> mPTasks = new LinkedList<>();
     static ExecutorService mExec;
     static HashSet<Integer> mProcessed = new HashSet<>();
+    static HashMap<Integer, ProgressBar> mBars = new HashMap<>();
 
 
 
@@ -37,6 +39,7 @@ public class RecViewAdapter extends
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        Log.d("Adapter","In onCreateViewHolder, viewType = " + viewType);
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.runnabel_item, viewGroup,
                 false);
         ViewHolder vh = new ViewHolder(v);
@@ -45,13 +48,15 @@ public class RecViewAdapter extends
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.d("Adapter","Calling onBindViewHolder for Position : " + position);
         holder.runnName.setText(mRunns.get(position));
         //mPTasks.add(new ProgressTask(holder.pBar, position));
-        if (!mProcessed.contains(position)) {
+        if (!mBars.containsKey(position)) {
             Log.d("Adapter","Adding AsynTask for : " + position);
-            new ProgressTask(holder.pBar, position).executeOnExecutor(mExec, null);
-            mProcessed.add(position);
+            //new ProgressTask(holder.pBar, position).executeOnExecutor(mExec, null);
+            new ProgressTask(holder.pBar, position).execute();
+            mBars.put(position, holder.pBar);
+        } else {
+            holder.pBar = mBars.get(position);
         }
     }
 
@@ -68,7 +73,7 @@ public class RecViewAdapter extends
             super(view);
             runnName = (TextView) view.findViewById(R.id.textView);
             pBar = (ProgressBar) view.findViewById(R.id.progressBar);
-            pBar.setIndeterminate(false);
+            //pBar.setIndeterminate(false);
             pBar.setMax(100);
             pBar.setProgress(0);
 
