@@ -13,10 +13,12 @@ public class ProgressTask extends AsyncTask<Integer, Void, Void> {
     private int count;
 
     private ProgressBar mPBar;
+    private int taskNumber;
 
-    public ProgressTask (ProgressBar progressBar) {
+    public ProgressTask (ProgressBar progressBar, int taskNumber) {
         mPBar = progressBar;
         count = 0;
+        this.taskNumber = taskNumber;
     }
 
     @Override
@@ -34,8 +36,8 @@ public class ProgressTask extends AsyncTask<Integer, Void, Void> {
         while(count < 100) {
             try {
                 Thread.sleep(125);
-                mPBar.setProgress(count);
                 count+=5;
+                publishProgress();
             } catch (InterruptedException e) {
                 Log.e(LOG_TAG, "Exception in ProgressTask", e);
             }
@@ -47,4 +49,11 @@ public class ProgressTask extends AsyncTask<Integer, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
     }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {
+        super.onProgressUpdate(values);
+        mPBar.setProgress(count);
+    }
+
 }

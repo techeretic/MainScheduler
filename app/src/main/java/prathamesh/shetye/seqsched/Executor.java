@@ -43,5 +43,12 @@ public class Executor {
         public Worker() {
             super("SequentialScheduler");
         }
+
+        @Override
+        public void run() {
+            super.run();
+            int count = takeFromQueue();
+
+        }
     }
 }

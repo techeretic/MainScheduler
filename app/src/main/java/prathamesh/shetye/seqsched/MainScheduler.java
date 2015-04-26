@@ -28,6 +28,7 @@ public class MainScheduler extends ActionBarActivity {
     private Context mContext;
     private List<String> mRunns = new LinkedList<>();
     private RecViewAdapter mAdapter;
+    private static int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,8 @@ public class MainScheduler extends ActionBarActivity {
         mFAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+                mRunns.add(Integer.toString(counter++));
+                mAdapter.notifyDataSetChanged();
             }
         });
 
